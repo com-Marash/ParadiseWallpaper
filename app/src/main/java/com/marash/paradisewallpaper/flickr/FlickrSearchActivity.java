@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
@@ -44,8 +45,7 @@ import java.util.concurrent.ExecutionException;
  * An activity that allows users to search for images on Flickr and that contains a series of
  * fragments that display retrieved image thumbnails.
  */
-public class FlickrSearchActivity extends AppCompatActivity
-    implements SearchView.OnQueryTextListener {
+public class FlickrSearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
   private static final String TAG = "FlickrSearchActivity";
   private static final String STATE_QUERY = "state_search_string";
   private static final Query DEFAULT_QUERY = new SearchQuery("");
@@ -91,14 +91,30 @@ public class FlickrSearchActivity extends AppCompatActivity
   }
 
   @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle presses on the action bar items
+    switch (item.getItemId()) {
+
+      case R.id.search:
+        searchView = (SearchView) item.getActionView();
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setIconified(false);
+        searchView.setOnQueryTextListener(this);
+        return true;
+
+      case R.id.favorites:
+        return true;
+
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
+
+  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater menuInflater = getMenuInflater();
-    menuInflater.inflate(R.menu.search_activity, menu);
-
-    searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-    searchView.setSubmitButtonEnabled(true);
-    searchView.setIconified(false);
-    searchView.setOnQueryTextListener(this);
+    menuInflater.inflate(R.menu.action_icons, menu);
 
     return true;
   }
