@@ -64,16 +64,16 @@ public class FlickrSearchActivity extends AppCompatActivity implements SearchVie
   private Query currentQuery;
 
   private enum Page {
-    SMALL,
-    MEDIUM,
+    Categories,
+    RecentlyAdded,
     LIST
   }
 
   private static final Map<Page, Integer> PAGE_TO_TITLE;
   static {
     Map<Page, Integer> temp = new HashMap<>();
-    temp.put(Page.SMALL, R.string.small);
-    temp.put(Page.MEDIUM, R.string.medium);
+    temp.put(Page.Categories, R.string.categories);
+    temp.put(Page.RecentlyAdded, R.string.recentlyAdded);
     temp.put(Page.LIST, R.string.list);
     PAGE_TO_TITLE = Collections.unmodifiableMap(temp);
   }
@@ -166,8 +166,8 @@ public class FlickrSearchActivity extends AppCompatActivity implements SearchVie
       executeQuery(DEFAULT_QUERY);
     }
 
-    int smallGridSize = res.getDimensionPixelSize(R.dimen.small_photo_side);
-    int mediumGridSize = res.getDimensionPixelSize(R.dimen.medium_photo_side);
+    int categoriesGridSize = res.getDimensionPixelSize(R.dimen.categories_item_height);
+    int recentlyAddedGridSize = res.getDimensionPixelSize(R.dimen.RecentlyAdded_photo_side);
     int listHeightSize = res.getDimensionPixelSize(R.dimen.flickr_list_item_height);
     int screenWidth = getScreenWidth();
 
@@ -175,8 +175,8 @@ public class FlickrSearchActivity extends AppCompatActivity implements SearchVie
       // Weight values determined experimentally by measuring the number of incurred GCs while
       // scrolling through the various photo grids/lists.
       GlideApp.get(this).preFillBitmapPool(
-          new PreFillType.Builder(smallGridSize).setWeight(1),
-          new PreFillType.Builder(mediumGridSize).setWeight(1),
+          new PreFillType.Builder(categoriesGridSize).setWeight(1),
+          new PreFillType.Builder(recentlyAddedGridSize).setWeight(1),
           new PreFillType.Builder(screenWidth / 2, listHeightSize).setWeight(6));
     }
   }
@@ -312,14 +312,31 @@ public class FlickrSearchActivity extends AppCompatActivity implements SearchVie
       return getString(titleId);
     }
 
+//    private Fragment pageToFragment(int position) {
+//      Page page = Page.values()[position];
+//      if (page == Page.Small) {
+//        int pageSize = getPageSize(R.dimen.small_photo_side);
+//        return FlickrPhotoGrid.newInstance(pageSize, 15, false /*thumbnail*/);
+//      } else if (page == Page.MEDIUM) {
+//        int pageSize = getPageSize(R.dimen.medium_photo_side);
+//        return FlickrPhotoGrid.newInstance(pageSize, 10, true /*thumbnail*/);
+//      } else if (page == Page.LIST) {
+//        return FlickrPhotoList.newInstance();
+//      } else {
+//        throw new IllegalArgumentException("No fragment class for page=" + page);
+//      }
+//    }
+
     private Fragment pageToFragment(int position) {
       Page page = Page.values()[position];
-      if (page == Page.SMALL) {
-        int pageSize = getPageSize(R.dimen.small_photo_side);
-        return FlickrPhotoGrid.newInstance(pageSize, 15, false /*thumbnail*/);
-      } else if (page == Page.MEDIUM) {
-        int pageSize = getPageSize(R.dimen.medium_photo_side);
-        return FlickrPhotoGrid.newInstance(pageSize, 10, true /*thumbnail*/);
+      if (page == Page.Categories) {
+        int pageSize = getPageSize(R.dimen.categories_item_height);
+        //return FlickrPhotoGrid.newInstance(pageSize, 15, false /*thumbnail*/);
+        //TODO return list of categories
+        return FlickrPhotoList.newInstance();
+      } else if (page == Page.RecentlyAdded) {
+        int pageSize = getPageSize(R.dimen.RecentlyAdded_photo_side);
+        return FlickrPhotoGrid.newInstance(pageSize, 8, true /*thumbnail*/);
       } else if (page == Page.LIST) {
         return FlickrPhotoList.newInstance();
       } else {
