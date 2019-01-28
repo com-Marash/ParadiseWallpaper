@@ -66,7 +66,7 @@ public class FlickrSearchActivity extends AppCompatActivity implements SearchVie
   private enum Page {
     Categories,
     RecentlyAdded,
-    LIST
+    colors
   }
 
   private static final Map<Page, Integer> PAGE_TO_TITLE;
@@ -74,7 +74,7 @@ public class FlickrSearchActivity extends AppCompatActivity implements SearchVie
     Map<Page, Integer> temp = new HashMap<>();
     temp.put(Page.Categories, R.string.categories);
     temp.put(Page.RecentlyAdded, R.string.recentlyAdded);
-    temp.put(Page.LIST, R.string.list);
+    temp.put(Page.colors, R.string.colors);
     PAGE_TO_TITLE = Collections.unmodifiableMap(temp);
   }
 
@@ -168,6 +168,7 @@ public class FlickrSearchActivity extends AppCompatActivity implements SearchVie
 
     int categoriesGridSize = res.getDimensionPixelSize(R.dimen.categories_item_height);
     int recentlyAddedGridSize = res.getDimensionPixelSize(R.dimen.RecentlyAdded_photo_side);
+    int colorsGridSize = res.getDimensionPixelSize(R.dimen.colors_photo_side);
     int listHeightSize = res.getDimensionPixelSize(R.dimen.flickr_list_item_height);
     int screenWidth = getScreenWidth();
 
@@ -177,7 +178,8 @@ public class FlickrSearchActivity extends AppCompatActivity implements SearchVie
       GlideApp.get(this).preFillBitmapPool(
           new PreFillType.Builder(categoriesGridSize).setWeight(1),
           new PreFillType.Builder(recentlyAddedGridSize).setWeight(1),
-          new PreFillType.Builder(screenWidth / 2, listHeightSize).setWeight(6));
+              new PreFillType.Builder(colorsGridSize).setWeight(1),
+              new PreFillType.Builder(screenWidth / 2, listHeightSize).setWeight(6));
     }
   }
 
@@ -337,8 +339,9 @@ public class FlickrSearchActivity extends AppCompatActivity implements SearchVie
       } else if (page == Page.RecentlyAdded) {
         int pageSize = getPageSize(R.dimen.RecentlyAdded_photo_side);
         return FlickrPhotoGrid.newInstance(pageSize, 8, true /*thumbnail*/);
-      } else if (page == Page.LIST) {
-        return FlickrPhotoList.newInstance();
+      } else if (page == Page.colors) {
+        int pageSize = getPageSize(R.dimen.colors_photo_side);
+        return FlickrPhotoGrid.newInstance(pageSize, 8, true /*thumbnail*/);
       } else {
         throw new IllegalArgumentException("No fragment class for page=" + page);
       }

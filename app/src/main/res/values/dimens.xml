@@ -5,6 +5,7 @@
 
     <dimen name="categories_item_height">55dp</dimen>
     <dimen name="RecentlyAdded_photo_side">170dp</dimen>
+    <dimen name="colors_photo_side">170dp</dimen>
     <dimen name="flickr_list_item_height">170dp</dimen>
     <dimen name="grid_margin">5dp</dimen>
     <dimen name="page_margin">8dp</dimen>
