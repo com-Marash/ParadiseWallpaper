@@ -3,10 +3,12 @@
     <string name="search">Search</string>
     <string name="searching_for">Searching for \"%s\" on Flickr</string>
     <string name="search_failed">Search for \"%s\" failed, check your network connection and try again</string>
-    <string name="categories">Categories</string>
-    <string name="recentlyAdded">Recently Added</string>
-    <string name="list">List</string>
+    <string name="categories">CATEGORIES</string>
+    <string name="recentlyAdded">NEW</string>
+    <string name="colors">COLORS</string>
     <string name="image_description">An image from the list of results for a search query</string>
     <string name="fullscreen_description">Full screen view of an image</string>
     <string name="favorites">Favorites</string>
+    <string name="setWalpaper">Set as wallpaper</string>
+    <string name="saveAsLiked">Save it!</string>
 </resources>
